@@ -46,10 +46,12 @@ public_users.get('/title/:title',function (req, res) {
   //Write your code here
   let reqTitle = req.params.title;
   for(let bookIsbn of Object.keys(books)){
-    if(books[bookIsbn].title === reqTitle) 
-    //here directly returning a single book data by assuming all titles are unique
-     var book = books[bookIsbn];
-    return res.status(200).json({book});
+    if(books[bookIsbn].title === reqTitle) {
+        //here directly returning a single book data by assuming all titles are unique
+        var book = books[bookIsbn];
+        return res.status(200).json(books[bookIsbn]);
+    }
+    
   }
   return res.status(404).json({message: "No book found for given title"});
 });
@@ -57,10 +59,10 @@ public_users.get('/title/:title',function (req, res) {
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
   let isbn = req.params.isbn;
-  let book = books[isbn];
-  if(book){
+  let review = books[isbn]["reviews"];
+  if(review){
     return res.status(200).json({
-        book.reviews
+        review
     });
   }
   return res.status(404).json({message: "Invalid isbn"});
