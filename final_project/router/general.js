@@ -94,4 +94,79 @@ public_users.get('/review/:isbn',function (req, res) {
   return res.status(404).json({message: "Invalid isbn"});
 });
 
+//  task 10 - getting list of books using async/await
+public_users.get('/async-books', async function (req, res) {
+  try {
+    // Assuming the localhost server for now
+    const response = await axios.get('https://sanjayphopas-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/');
+
+    // If the request is successful, the books data will be in response.data
+    const books = response.data;  
+
+    // Return all books
+    return res.status(200).json({ books });
+
+  } catch (error) {
+    console.error('Error fetching books:', error);
+    return res.status(500).json({ message: error });
+  }
+});
+
+//  task 11 - getting the book details based on ISBN using async/await
+public_users.get('/async-isbn-book/:isbn', async function (req, res) {
+    try {
+        const isbn = req.params.isbn;
+        const apiUrl = `https://sanjayphopas-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/review/${isbn}`;
+      const response = await axios.get(apiUrl);
+  
+      // If the request is successful, the books data will be in response.data
+      const books = response.data;  
+  
+      // Return all books
+      return res.status(200).json({ books });
+  
+    } catch (error) {
+      console.error('Error fetching book:', error);
+      return res.status(500).json({ message: "Error fetching book" });
+    }
+  });
+
+  //  task 12 - getting the book details based on author using async/await
+public_users.get('/async-author-book/:author', async function (req, res) {
+    try {
+        let requestedAuthor = req.params.author;
+        const apiUrl = `https://sanjayphopas-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/author/${requestedAuthor}`;
+      const response = await axios.get(apiUrl);
+  
+      // If the request is successful, the books data will be in response.data
+      const books = response.data;  
+  
+      // Return all books
+      return res.status(200).json({ books });
+  
+    } catch (error) {
+      console.error('Error fetching book:', error);
+      return res.status(500).json({ message: "Error fetching book" });
+    }
+  });
+
+   //  task 12 - getting the book details based on title using async/await
+public_users.get('/async-title-book/:title', async function (req, res) {
+    try {
+        let reqTitle = req.params.title;
+        const apiUrl = `https://sanjayphopas-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/title/${reqTitle}`;
+      const response = await axios.get(apiUrl);
+  
+      // If the request is successful, the books data will be in response.data
+      const books = response.data;  
+  
+      // Return all books
+      return res.status(200).json({ books });
+  
+    } catch (error) {
+      console.error('Error fetching book:', error);
+      return res.status(500).json({ message: "Error fetching book" });
+    }
+  });
+
 module.exports.general = public_users;
